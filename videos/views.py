@@ -1,13 +1,13 @@
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView
+from rest_framework.pagination import CursorPagination
 from .models import Video
 from .serializers import VideoSerializer
 
-# add pagination via video_id field
-class VideoListPagination(PageNumberPagination):
+class VideoCursorPagination(CursorPagination):
     page_size = 10
+    ordering = '-published_at'
 
 class VideoListView(ListAPIView):
-    queryset = Video.objects.all().order_by('-published_at')
+    queryset = Video.objects.all()
     serializer_class = VideoSerializer
-    pagination_class = VideoListPagination
+    pagination_class = VideoCursorPagination
